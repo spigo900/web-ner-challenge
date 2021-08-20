@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <NERTagging />
+    <!--
+      note: this should use a config variable or something,
+      but I'm too lazy right now to figure out how to do that in Vue
+     -->
+    <NERTagging nerURL="http://localhost:5000/ner" />
   </div>
 </template>
 

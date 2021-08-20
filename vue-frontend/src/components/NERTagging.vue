@@ -1,12 +1,10 @@
 <template>
   <div class="hello">
     <h1>Joe's named entity getter app</h1>
-    <form>
-        <textarea id="input-text" name="text" v-model="text">
-            The pilot, John Doe, flew over the United States in his airplane.
-        </textarea>
+    <form id="input-form">
+        <textarea id="input-text" name="text" v-model="text"></textarea>
         <br>
-        <input type="button" value="Go" v-on:click="tagText" />
+        <input type="button" value="Go" v-on:click="onGo" />
         <br>
 
         <output>
@@ -24,19 +22,31 @@
 <script>
 export default {
   name: 'NERTagging',
+  props: ['nerURL'],
   data: function () {
+    var text = "The pilot, John Doe, flew over the United States in his airplane.";
     return {
-      "text": "The pilot, John Doe, flew over the United States in his airplane.",
-      "entities": [
-        {"name": "John Doe", "type": "PERSON"},
-        {"name": "United States", "type": "GPE"},
-      ],
-      "entities-alt": {"John Doe": "PERSON", "United States": "GPE"},
+      "text": text,
+      "entities": this.tagText(text),
     }
   },
   methods: {
-     tagText: function () {
-        console.log(this.text)
+     onGo: function () {
+        this.tagText(this.text);
+     },
+     tagText: function (text) {
+        var component = this;
+        function receiveTags() {
+            component.entities = request.response.ner;
+        }
+
+        var request = new XMLHttpRequest();
+        request.responseType = "json"
+        request.open("POST", this.nerURL);
+        request.onload = receiveTags;
+        var formData = new FormData();
+        formData.append("text", text);
+        request.send(formData);
      }
   }
 }
