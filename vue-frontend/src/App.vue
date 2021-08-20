@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <NERTagging />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NERTagging from './components/NERTagging.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    NERTagging
   }
 }
 </script>
